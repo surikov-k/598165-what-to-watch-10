@@ -12,14 +12,14 @@ function ReviewsList({reviews}: ReviewsListProps) {
   const secondHalf = reviews.slice(halfReviewsLength);
 
   return (
-    <div className="film-card__reviews film-card__row">
+    <>
       <div className="film-card__reviews-col">
         {firstHalf.map((review: ReviewType) => <Review key={review.id} review={review}/>)}
       </div>
       <div className="film-card__reviews-col">
         {secondHalf.map((review: ReviewType) => <Review key={review.id} review={review}/>)}
       </div>
-    </div>
+    </>
   );
 }
 
