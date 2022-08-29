@@ -3,13 +3,20 @@ import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../../const';
 import SignIn from '../../pages/sign-in/sign-in';
 import MyList from '../../pages/my-list/my-list';
-import Film from '../../pages/film/film';
+import Movie from '../../pages/movie/movie';
 import Review from '../../pages/review/review';
 import Player from '../../pages/player/player';
 import NotFound from '../../pages/not-found/not-found';
 import PrivateRoot from '../private-root/private-root';
+import {MovieType} from '../../types/movie';
+import {ReviewType} from '../../types/review';
 
-function App(): JSX.Element {
+type AppProps = {
+  movies: MovieType[],
+  reviews: ReviewType[]
+}
+
+function App({movies, reviews}: AppProps): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
@@ -17,9 +24,8 @@ function App(): JSX.Element {
           path={AppRoute.Root}
           element={
             <Main
-              title="The Grand Budapest Hotel"
-              genre="Drama"
-              release="2014"
+              feature={movies[Math.round(Math.random() * movies.length)]}
+              movies={movies}
             />
           }
         />
@@ -30,18 +36,24 @@ function App(): JSX.Element {
         <Route
           path={AppRoute.MyList}
           element={
-            <PrivateRoot status={AuthorizationStatus.NoAuth}>
-              <MyList/>
+            <PrivateRoot status={AuthorizationStatus.Auth}>
+              <MyList movies={movies}/>
             </PrivateRoot>
           }
         />
         <Route
-          path={AppRoute.Film}
-          element={<Film/>}
+          path={AppRoute.Movie}
+          element={
+            <Movie
+              movie={movies[Math.round(Math.random() * movies.length)]}
+              similar={movies.slice(0 ,4)}
+              reviews={reviews}
+            />
+          }
         />
         <Route
           path={AppRoute.AddReview}
-          element={<Review/>}
+          element={<Review movie={movies[Math.round(Math.random() * movies.length)]}/>}
         />
         <Route
           path={AppRoute.Player}
