@@ -26,8 +26,9 @@ function CardsList({movies}: CardListProps) {
           <Card
             key={movie.id}
             movie={movie}
-            onCardEnter={handleCardEnter}
-            onCardLeave={handleCardLeave}
+            handleCardEnter={handleCardEnter}
+            handleCardLeave={handleCardLeave}
+            isVideoPlaying={movie.id === activeCard?.id}
           />
         ))
       }
